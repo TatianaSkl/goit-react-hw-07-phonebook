@@ -19,9 +19,15 @@ export const ContactForm = () => {
       toast.warn(`${name} is already in contacts.`);
       return;
     }
-    dispatch(addContact({ name, phone }));
-    toast.success(`${name} is added to the contact list!`);
-    form.reset();
+    dispatch(addContact({ name, phone }))
+      .then(() => {
+        toast.success(`${name} is added to the contact list!`);
+        form.reset();
+      })
+      .catch(error => {
+        toast.error(`Failed to add contact ${name}.`);
+        console.error('Error adding contact:', error);
+      });
   };
 
   return (

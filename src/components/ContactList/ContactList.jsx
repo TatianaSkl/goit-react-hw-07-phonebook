@@ -6,13 +6,18 @@ import { List, Item, Button } from './ContactList.styled';
 
 export const ContactList = () => {
   const contacts = useSelector(filteredContactsSelector);
-
   const dispatch = useDispatch();
 
   const handleDeleteContact = e => {
-    dispatch(deleteContact(e.target.id));
-    toast.info(`The contact has been deleted!`);
-    return;
+    const contactId = e.target.id;
+    dispatch(deleteContact(contactId))
+      .then(() => {
+        toast.info(`The contact has been deleted!`);
+      })
+      .catch(error => {
+        toast.error('Failed to delete contact.');
+        console.error('Error deleting contact:', error);
+      });
   };
 
   return (
